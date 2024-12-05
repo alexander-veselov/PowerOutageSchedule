@@ -1,18 +1,14 @@
 import argparse
-from data import request_power_outage_data
+from application import Application
 
-
-def main(args: argparse.Namespace) -> None:
-    power_outage_data = request_power_outage_data(args.address)
-    if power_outage_data.current.hasQueue == 'yes':
-        today = power_outage_data.graphs.today
-        if today is not None:
-            for hour in today.hoursList:
-                print(hour)
-
+def main(args: argparse.Namespace):
+    application = Application(args.address, args.width, args.height)
+    application.run()
 
 if __name__ == '__main__':
     parser = argparse.ArgumentParser()
-    parser.add_argument('--address', help='Power outage schedule address', type=str)
+    parser.add_argument('--address', help='Power outage schedule address', type=str, required=True)
+    parser.add_argument('--width', help='Window width', type=int, default=480)
+    parser.add_argument('--height', help='Window height', type=int, default=320)
     args = parser.parse_args()
     main(args)

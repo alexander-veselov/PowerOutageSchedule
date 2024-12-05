@@ -2,20 +2,17 @@ import requests
 from typing import Optional
 from pydantic import BaseModel
 
-
 class Current(BaseModel):
     note: str
     hasQueue: str
     subqueue: int
     queue: int
 
-
 class Hour(BaseModel):
     hour: str
     electricity: int
     description: str
     periodLimitValue: int
-
 
 # Note: This is not the graph from math "graph theory"
 # It's just a bad name used by this API developers
@@ -24,18 +21,15 @@ class Graph(BaseModel):
     eventDate: str
     hoursList: list[Hour]
 
-
 class Graphs(BaseModel):
     yesterday: Optional[Graph]
     today: Optional[Graph]
     tomorrow: Optional[Graph]
 
-
 class PowerOutageResponse(BaseModel):
     current: Current
     graphs: Graphs
     showFutureDateUntil: str
-
 
 def request_power_outage_data(address: str) -> PowerOutageResponse:
     url = 'https://svitlo.oe.if.ua/GAVTurnOff/GavGroupByAccountNumber'
